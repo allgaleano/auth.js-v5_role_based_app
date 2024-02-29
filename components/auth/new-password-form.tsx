@@ -1,9 +1,10 @@
 "use client";
 import * as z from "zod";
-import { RegisterSchema } from "@/schemas";
+import { NewPasswordSchema } from "@/schemas";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 
 import {
   Form,
@@ -19,44 +20,42 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
-import axios from "axios";
 import { useState, useTransition } from "react";
-import { register } from "@/actions/register";
+import { newPassword } from "@/actions/new-password";
 
-export const RegisterForm = () => {
+export const NewPasswordForm = () => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof RegisterSchema>>({
-    resolver: zodResolver(RegisterSchema),
+  const form = useForm<z.infer<typeof NewPasswordSchema>>({
+    resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      name: "",
-      email: "",
       password: "",
     }
   })
 
-  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = async (values: z.infer<typeof NewPasswordSchema>) => {
     setError("");
     setSuccess("");
     
     startTransition(() => {
-      register(values)
+      newPassword(values, token)
         .then((data) => {
-          setError(data.error);
-          setSuccess(data.success);
+          setError(data?.error);
+          setSuccess(data?.success);
         })
     });
   };
 
   return (
     <CardWrapper
-      headerLabel="Create an account"
-      backButtonLabel="Already have an account?"
+      headerLabel="Enter a new password"
+      backButtonLabel="Back to login"
       backButtonHref="/auth/login"
-      showSocial
     >
       <Form {...form}>
         <form 
@@ -64,48 +63,6 @@ export const RegisterForm = () => {
           className="space-y-6"
         >
           <div className="space-y-4">
-            <FormField 
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Name
-                  </FormLabel>
-                  <FormControl>
-                    <Input 
-                      {...field}
-                      disabled={isPending}
-                      placeholder="Enter your name"
-                      type="name"
-                      autoComplete="name"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField 
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Email
-                  </FormLabel>
-                  <FormControl>
-                    <Input 
-                      {...field}
-                      disabled={isPending}
-                      placeholder="email@example.com"
-                      type="email"
-                      autoComplete="email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField 
               control={form.control}
               name="password"
@@ -120,7 +77,6 @@ export const RegisterForm = () => {
                       disabled={isPending}
                       placeholder="********"
                       type="password"
-                      autoComplete="current-password"
                     />
                   </FormControl>
                   <FormMessage />
@@ -135,7 +91,7 @@ export const RegisterForm = () => {
             type="submit"
             className="w-full"
           >
-            Create a new account
+            Reset password
           </Button>
         </form>
       </Form>
