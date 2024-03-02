@@ -13,7 +13,7 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (id: string | undefined) => {
   try {
     const user = await db.user.findUnique({
       where: {
@@ -25,3 +25,12 @@ export const getUserById = async (id: string) => {
     return null;
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    const users = await db.user.findMany();
+    return users;
+  } catch (error) {
+    return null;
+  }
+}

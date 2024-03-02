@@ -12,7 +12,7 @@ export default function Home() {
           Next.js role based authentication app
         </p>
         <div>
-          <LoginButton>
+          <LoginButton mode="modal" asChild>
             <Button>
               Sign In
             </Button>
