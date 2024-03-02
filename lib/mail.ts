@@ -9,7 +9,7 @@ export const sendTwoFactorTokenEmail = async (
   token: string
 ) => {
   await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: "auth@webling.es",
     to: email,
     subject: "Two-factor confirmation",
     html: `<p>Your two-factor confirmation code is: ${token}</p>`
@@ -23,7 +23,7 @@ export const sendPasswordResetEmail = async (
   const resetLink = `${domain}/auth/new-password?token=${token}`;
 
   await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: "auth@webling.es",
     to: email,
     subject: "Reset your password",
     html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`
@@ -37,7 +37,7 @@ export const sendVerificationEmail = async (
   const confirmLink = `${domain}/auth/new-verification?token=${token}`;
 
   await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: "auth@webling.es",
     to: email,
     subject: "Confirm your email",
     html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`
