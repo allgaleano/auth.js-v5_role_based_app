@@ -7,7 +7,6 @@ import {
   CardHeader
 } from "@/components/ui/card";
 import { Header } from "@/components/auth/header";
-import Head from "next/head";
 import { Social } from "@/components/auth/social";
 import { BackButton } from "@/components/auth/back-button";
 
@@ -27,7 +26,7 @@ export const CardWrapper = ({
   showSocial
 }: CarfaceCardWrapperProps) => {
   return (
-    <Card className="w-[400px]">
+    <Card className="w-[90%] max-w-[400px]">
       <CardHeader>
         <Header label={headerLabel} />
       </CardHeader>
