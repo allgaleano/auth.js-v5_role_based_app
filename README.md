@@ -2,6 +2,8 @@
 
 This is a role-based authentication app built using auth.js-v5. It allows users to authenticate and access different parts of the application based on their assigned roles.
 
+[Visit the app and create an account] (https://auth-js-v5-role-based-app.vercel.app/)
+
 ## Features
 
 - User registration and login
